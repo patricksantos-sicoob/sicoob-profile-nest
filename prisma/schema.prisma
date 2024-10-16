@@ -7,20 +7,23 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-//model Virtue {
-//  id        Int        @id @default(autoincrement())
-//  name      String     @unique
-//  profiles  Profile[]  @relation("ProfileVirtues")
-//}
+model Virtue {
+  id        Int        @id @default(autoincrement())
+  name      String     @unique
+  profiles  Profile[]  @relation("ProfileVirtues")
+}
 
-//model Profile {
-//   id       Int       @id @default(autoincrement())
-//  bio      String    @default("Olá, eu não tenho uma bio ainda!")
-//  image    String    @default("https://img.freepik.com/premium-vector/anonymous-user-flat-icon-vector-illustration-with-long-shadow_520826-1932.jpg")
-//  virtues  Virtue[]  @relation("ProfileVirtues")
-//  user     User      @relation(fields: [userId], references: [id])
-//  userId   Int       @unique
-//}
+model Profile {
+  id           Int       @id @default(autoincrement())
+  bio          String    @default("Olá, eu não tenho uma bio ainda!")
+  description  String
+  role         String
+  team         String
+  image        String    @default("https://img.freepik.com/premium-vector/anonymous-user-flat-icon-vector-illustration-with-long-shadow_520826-1932.jpg")
+  virtues      Virtue[]  @relation("ProfileVirtues")
+  user         User      @relation(fields: [userUsername], references: [username])
+  userUsername String    @unique
+}
 
 model User {
   id          String    @id @default(uuid()) @db.Uuid
@@ -29,5 +32,5 @@ model User {
   username    String    @unique
   name        String
   createdAt   DateTime  @default(now())
-//  profile   Profile?
+  profile     Profile?
 }

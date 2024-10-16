@@ -10,7 +10,7 @@ export class CreateUserDto {
   @IsNotEmpty({ message: 'Email é obrigatório' })
   email: string;
 
-  @IsStrongPassword({}, { message: 'Insira uma senha forte' })
+  @IsStrongPassword({ minLength: 8 }, { message: 'Insira uma senha forte' })
   @IsNotEmpty({ message: 'Senha é obrigatório' })
   password: string;
 
