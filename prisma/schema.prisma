@@ -15,10 +15,9 @@ model Virtue {
 
 model Profile {
   id           Int       @id @default(autoincrement())
-  bio          String    @default("Olá, eu não tenho uma bio ainda!")
-  description  String
-  role         String
-  team         String
+  description  String    @default("Olá, eu não tenho uma descrição ainda!")
+  role         String    @default("Sem cargo definido")
+  team         String    @default("Sem equipe definida")
   image        String    @default("https://img.freepik.com/premium-vector/anonymous-user-flat-icon-vector-illustration-with-long-shadow_520826-1932.jpg")
   virtues      Virtue[]  @relation("ProfileVirtues")
   user         User      @relation(fields: [userUsername], references: [username])
