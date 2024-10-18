@@ -21,4 +21,25 @@ export class CreateUserDto {
   @IsString()
   @IsNotEmpty({ message: 'Nome é obrigatório' })
   name: string;
+
+  @IsString()
+  description: string;
+
+  @IsString()
+  role: string;
+
+  @IsString()
+  team: string;
+
+  @IsString()
+  image: string;
+
+  @IsString()
+  virtue1: string;
+
+  @IsString()
+  virtue2: string;
+
+  @IsString()
+  virtue3: string;
 }
