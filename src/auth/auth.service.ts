@@ -17,15 +17,12 @@ export class AuthService {
     const user = await this.prisma.user.findUnique({
       where: { username },
     });
-    if (!user || !user.password || user.password !== password) {
-      throw new UnauthorizedException();
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      throw new UnauthorizedException('Invaldid credentials');
     }
 
-/*     const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) {
-      throw new UnauthorizedException();
-    }
- */
     const payload = {
       sub: user.id,
       username: user.username,
