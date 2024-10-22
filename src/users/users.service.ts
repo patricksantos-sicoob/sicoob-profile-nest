@@ -9,18 +9,27 @@ export class UsersService {
   constructor(private prisma: PrismaClient) {}
 
   async create(createUserDto: CreateUserDto) {
-    const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
-    createUserDto.password = hashedPassword;
+    try {
+      if (createUserDto.password.length < 8) {
+        throw new Error('A senha deve ter 8 caracteres ou mais');
+      }
 
-    const user = await this.prisma.user.create({
-      data: {
-        email: createUserDto.email,
-        password: createUserDto.password,
-        username: createUserDto.username,
-        name: createUserDto.name,
-      },
-    });
-    return user;
+      const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
+      createUserDto.password = hashedPassword;
+
+      const user = await this.prisma.user.create({
+        data: {
+          email: createUserDto.email,
+          password: createUserDto.password,
+          username: createUserDto.username,
+          name: createUserDto.name,
+        },
+      });
+      return user;
+    } catch (error) {
+      console.error(error.message);
+      throw new Error('Erro ao criar usuário');
+    }
   }
 
   async findAll() {
