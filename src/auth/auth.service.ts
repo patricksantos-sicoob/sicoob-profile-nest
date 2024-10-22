@@ -18,6 +18,10 @@ export class AuthService {
       where: { username },
     });
 
+    if (!user) {
+      throw new UnauthorizedException('Invaldid credentials');
+    }
+
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       throw new UnauthorizedException('Invaldid credentials');
@@ -35,6 +39,7 @@ export class AuthService {
       virtue2: user.virtue2,
       virtue3: user.virtue3,
     };
+
     return {
       access_token: await this.jwtService.signAsync(payload),
     };
